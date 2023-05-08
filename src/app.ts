@@ -12,7 +12,7 @@ export class SetupApplication {
 
   // criando uma propriedade privada
   // armazenara instancias do servidor
-  private Server?: Server;
+  private server?: Server;
 
   //    Define o construtor da classe, que recebe um parâmetro opcional
   //   port (valor padrão 3000) e um parâmetro opcional app (valor padrão um novo aplicativo Express).
@@ -37,7 +37,7 @@ export class SetupApplication {
 
   //   classe pra iniciar o server
   public start(): void {
-    this.Server = this.app.listen(this.port, () => {
+    this.server = this.app.listen(this.port, () => {
       console.log("Server running on port" + this.port);
     });
   }
