@@ -30,11 +30,10 @@ const userSchema = new Schema(
     password: {
       type: Schema.Types.String,
       required: true,
-      unique: true,
     },
-    enabled: {
+    enable: {
       type: Schema.Types.Boolean,
-      default: true,
+      required: true,
     },
     role: {
       type: Schema.Types.ObjectId,

@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Schema, Model, Document } from "mongoose";
 
 type RoleDocument = Document & {
   name: string;

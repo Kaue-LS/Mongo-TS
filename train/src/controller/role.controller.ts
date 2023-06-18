@@ -1,12 +1,12 @@
-import { Request, Response, response } from "express";
-import { Role, RoleInput } from "../models/role.model";
+import { Request, Response } from "express";
+import { Role, RoleInput } from "../database/schemas/Role.model";
 
 const createRole = async (req: Request, res: Response) => {
   const { description, name } = req.body;
 
   if (!name || !description) {
     return res.status(422).json({
-      message: "The fields Name and Description are required",
+      message: "The fields name and descriptions are required",
     });
   }
 
@@ -15,8 +15,7 @@ const createRole = async (req: Request, res: Response) => {
     description,
   };
 
-  const roleCreated = Role.create(roleInput);
-
+  const roleCreated = await Role.create(roleInput);
   return res.status(201).json({ data: roleCreated });
 };
 
@@ -25,36 +24,34 @@ const getAllRoles = async (req: Request, res: Response) => {
 
   return res.status(200).json({ data: roles });
 };
-const getRole = async (req: Request, res: Response) => {
+
+const getOneRole = async (req: Request, res: Response) => {
   const { id } = req.params;
   const role = await Role.findOne({ _id: id });
-
-  if (!role)
-    return res
-      .status(404)
-      .json({ message: "Role with id: " + id + " not found" });
+  if (!role) {
+    return res.status(404).json({ message: `Role with id ${id} not found` });
+  }
   return res.status(200).json({ data: role });
 };
+
 const updateRole = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const { name, description } = req.body;
 
-  const { description, name } = req.body;
+  const role = await Role.findOne({ _id: id });
 
-  const role = await Role.find({ _id: id });
-  if (!role) {
-    return res.status(404).json({ message: `Role with id: ${id} not Found` });
-  }
-  if (!name || !description) {
+  if (!role) return res.status(404).json({ message: "Role Not found" });
+
+  if (!name || !description)
     return res
       .status(422)
       .json({ message: "The fields name and description are required" });
-  }
 
   await Role.updateOne({ _id: id }, { name, description });
 
-  const roleUpdated = await Role.findById(id, { name, description });
+  const roleUpdate = await Role.findById(id, { name, description });
 
-  return res.status(200).json({ data: roleUpdated });
+  return res.status(200).json({ data: roleUpdate });
 };
 
 const deleteRole = async (req: Request, res: Response) => {
@@ -62,7 +59,7 @@ const deleteRole = async (req: Request, res: Response) => {
 
   await Role.findByIdAndDelete(id);
 
-  return res.status(200).json({ message: "Role deleted successfully" });
+  return res.status(200).json({ message: "Role deleted successfully." });
 };
 
-export { createRole, getAllRoles, getRole, updateRole, deleteRole };
+export { createRole, getAllRoles, getOneRole, updateRole, deleteRole };
