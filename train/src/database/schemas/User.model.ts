@@ -31,7 +31,7 @@ const userSchema = new Schema(
       type: Schema.Types.String,
       required: true,
     },
-    enable: {
+    enabled: {
       type: Schema.Types.Boolean,
       required: true,
     },

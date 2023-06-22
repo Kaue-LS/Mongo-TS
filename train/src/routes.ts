@@ -7,6 +7,13 @@ import {
   getOneRole,
   updateRole,
 } from "./controller/role.controller";
+import {
+  createUser,
+  deleteUser,
+  getAllUsers,
+  getUser,
+  updateUser,
+} from "./controller/user.controller";
 
 const roleRouter = () => {
   const routes = Router();
@@ -22,11 +29,11 @@ const roleRouter = () => {
 const userRouter = () => {
   const routes = Router();
 
-  routes.post("/user", createRole);
-  routes.get("/users", getAllRoles);
-  routes.get("/user/:id", getOneRole);
-  routes.put("/user/:id", updateRole);
-  routes.delete("/user/:id", deleteRole);
+  routes.post("/user", createUser);
+  routes.get("/users", getAllUsers);
+  routes.get("/user/:id", getUser);
+  routes.put("/user/:id", updateUser);
+  routes.delete("/user/:id", deleteUser);
 
   return routes;
 };
